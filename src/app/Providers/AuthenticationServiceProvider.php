@@ -5,9 +5,13 @@ namespace Taskio\Authentication\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Taskio\Authentication\Authenticator\AppAuthenticator;
+use Taskio\Authentication\Authenticator\AuthenticationByPassword;
 use Taskio\Authentication\Authenticator\WebAuthenticator;
 use Taskio\Authentication\Facades\AuthenticationFacade;
+use Taskio\Authentication\Facades\AuthenticationTypeFacade;
+use Taskio\Authentication\Facades\OtpGeneratorFacade;
 use Taskio\Authentication\Http\Controllers\AuthenticationController;
+use Taskio\Authentication\OtpGenerator\SimpleOtpGenerator;
 
 class AuthenticationServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,12 @@ class AuthenticationServiceProvider extends ServiceProvider
     {
         $authenticator = request()->has('application') ? AppAuthenticator::class : WebAuthenticator::class;
         AuthenticationFacade::shouldProxyTo($authenticator);
+
+        $otpGenerator = SimpleOtpGenerator::class;
+        OtpGeneratorFacade::shouldProxyTo($otpGenerator);
+
+        $authenticationType = AuthenticationByPassword::class;
+        AuthenticationTypeFacade::shouldProxyTo($authenticationType);
     }
 
     public function boot()

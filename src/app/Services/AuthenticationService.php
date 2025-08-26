@@ -2,8 +2,8 @@
 
 namespace Taskio\Authentication\Services;
 
-use Illuminate\Support\Facades\Hash;
 use Taskio\Authentication\Facades\AuthenticationFacade;
+use Taskio\Authentication\Facades\AuthenticationTypeFacade;
 use Taskio\UserManagement\Services\UserManagementService;
 
 class AuthenticationService
@@ -13,28 +13,20 @@ class AuthenticationService
     public function login(array $params)
     {
         $username = $params['username'];
-        $password = $params['password'];
 
         $user = $this->userManagementService->getByUsername($username);
 
-        if ($username) {
-            if (Hash::check($password, $user->password)) {
-                if (AuthenticationFacade::isBanned()) {
-                    // exception
-                }
-                if (AuthenticationFacade::isActivated()) {
-                    // exception
-                }
+        if (AuthenticationTypeFacade::check($user, $params)) {
 
-                AuthenticationFacade::login($user);
-            } else {
+            if (AuthenticationFacade::isBanned()) {
                 // exception
             }
-        } else {
-            //    exception
+            if (AuthenticationFacade::isActivated()) {
+                // exception
+            }
         }
 
-        return AuthenticationFacade::login($params);
+        return AuthenticationFacade::login($user);
     }
 
     public function logout(array $params)

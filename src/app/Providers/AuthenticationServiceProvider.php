@@ -11,6 +11,8 @@ use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Facades\AuthenticationTypeFacade;
 use Taskio\Authentication\Facades\OtpGeneratorFacade;
 use Taskio\Authentication\Http\Controllers\AuthenticationController;
+use Taskio\Authentication\Interfaces\LoginByPasswordValidator;
+use Taskio\Authentication\Interfaces\LoginValidatorInterface;
 use Taskio\Authentication\OtpGenerator\SimpleOtpGenerator;
 
 class AuthenticationServiceProvider extends ServiceProvider
@@ -27,6 +29,9 @@ class AuthenticationServiceProvider extends ServiceProvider
 
         $authenticationType = AuthenticationByPassword::class;
         AuthenticationTypeFacade::shouldProxyTo($authenticationType);
+
+        $loginValidator = LoginByPasswordValidator::class;
+        $this->app->bind(LoginValidatorInterface::class, $loginValidator);
     }
 
     public function boot()

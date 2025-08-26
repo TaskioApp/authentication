@@ -3,8 +3,7 @@
 namespace Taskio\UserManagement\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Taskio\UserManagement\Models\User;
+use Taskio\Authentication\Interfaces\LoginValidatorInterface;
 
 class LoginRequest extends FormRequest
 {
@@ -23,9 +22,6 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'username' => ['bail', 'required', 'string', 'max:50', Rule::unique(User::class, 'username')],
-            'password' => ['password', 'max:100']
-        ];
+        return app(LoginValidatorInterface::class)->rules();
     }
 }

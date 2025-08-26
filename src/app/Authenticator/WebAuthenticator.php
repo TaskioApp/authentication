@@ -7,29 +7,29 @@ use Taskio\Authentication\Interfaces\AuthenticatorInterface;
 
 class WebAuthenticator implements AuthenticatorInterface
 {
-    public function login(object $user)
+    public function login(object $user): array
     {
         Auth::login($user);
 
-        return response()->json([
+        return [
             'message' => 'Logged in successfully',
             'user' => $user
-        ]);
+        ];
     }
 
-    public function isBanned(object $user)
+    public function isBanned(object $user): bool
     {
         return $user->is_banned;
     }
 
-    public function isActivated(object $user)
+    public function isActivated(object $user): bool
     {
         return $user->is_activated;
     }
 
     public function logout(object $user) {}
 
-    public function me(object $user)
+    public function me(object $user): object
     {
         return $user;
     }

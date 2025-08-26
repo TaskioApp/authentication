@@ -6,28 +6,30 @@ use Taskio\Authentication\Interfaces\AuthenticatorInterface;
 
 class AppAuthenticator implements AuthenticatorInterface
 {
-    public function login(object $user)
+    public function login(object $user): array
     {
-        return response()->json([
+        $token = $user->createToken('my-plain-token')->plainTextToken;
+
+        return [
             'message' => 'Logged in successfully',
             'user' => $user,
-            'token' => $user->createToken('my-plain-token')->plainTextToken
-        ]);
+            'token' => $token
+        ];
     }
 
-    public function isBanned(object $user)
+    public function isBanned(object $user): bool
     {
         return $user->is_banned;
     }
 
-    public function isActivated(object $user)
+    public function isActivated(object $user): bool
     {
         return $user->is_activated;
     }
 
     public function logout(object $user) {}
 
-    public function me(object $user)
+    public function me(object $user): object
     {
         return $user;
     }

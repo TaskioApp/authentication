@@ -11,6 +11,11 @@ class AuthenticationService
 {
     public function __construct(public readonly UserManagementService $userManagementService) {}
 
+    public function register(object $params)
+    {
+        $this->userManagementService;
+    }
+
     public function login(array $params)
     {
         $username = $params['username'];

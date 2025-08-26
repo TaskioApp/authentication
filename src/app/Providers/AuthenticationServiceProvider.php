@@ -12,8 +12,10 @@ use Taskio\Authentication\Facades\AuthenticationTypeFacade;
 use Taskio\Authentication\Facades\OtpGeneratorFacade;
 use Taskio\Authentication\Http\Controllers\AuthenticationController;
 use Taskio\Authentication\Interfaces\LoginValidatorInterface;
+use Taskio\Authentication\Interfaces\OtpSenderInterface;
 use Taskio\Authentication\LoginValidator\LoginByPasswordValidator;
 use Taskio\Authentication\OtpGenerator\SimpleOtpGenerator;
+use Taskio\Authentication\OtpSender\Sms;
 
 class AuthenticationServiceProvider extends ServiceProvider
 {
@@ -60,5 +62,8 @@ class AuthenticationServiceProvider extends ServiceProvider
 
         $loginValidator = LoginByPasswordValidator::class;
         $this->app->bind(LoginValidatorInterface::class, $loginValidator);
+
+        $otpSender = Sms::class;
+        $this->app->bind(OtpSenderInterface::class, $otpSender);
     }
 }

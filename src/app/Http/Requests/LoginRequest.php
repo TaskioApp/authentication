@@ -1,6 +1,6 @@
 <?php
 
-namespace Taskio\UserManagement\Http\Requests;
+namespace Taskio\Authentication\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Taskio\Authentication\Interfaces\LoginValidatorInterface;

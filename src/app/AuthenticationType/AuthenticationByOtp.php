@@ -1,10 +1,10 @@
 <?php
 
-namespace Taskio\Authentication\Authenticator;
+namespace Taskio\Authentication\AuthenticationType;
 
 use Taskio\Authentication\Interfaces\AuthenticationTypeInterface;
 
-class AuthenticationByPassword implements AuthenticationTypeInterface
+class AuthenticationByOtp implements AuthenticationTypeInterface
 {
     public function check(object $user, array $params): bool
     {

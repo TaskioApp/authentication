@@ -2,6 +2,7 @@
 
 namespace Taskio\Authentication\Services;
 
+use Illuminate\Validation\ValidationException;
 use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Facades\AuthenticationTypeFacade;
 use Taskio\UserManagement\Services\UserManagementService;
@@ -16,16 +17,23 @@ class AuthenticationService
 
         $user = $this->userManagementService->getByUsername($username);
 
-        if (AuthenticationTypeFacade::check($user, $params)) {
+        if (!$user) {
+            throw ValidationException::withMessages(['username' => __('authentication::messages.operation.invalid_username_or_password')]);
 
-            if (AuthenticationFacade::isBanned()) {
-                // exception
-            }
-            if (AuthenticationFacade::isActivated()) {
-                // exception
+            // exception
+        } else {
+            if (AuthenticationTypeFacade::check($user, $params)) {
+
+                if (AuthenticationFacade::isBanned($user)) {
+                    throw ValidationException::withMessages(['username' => __('authentication::messages.operation.banned')]);
+                }
+                if (AuthenticationFacade::isActivated($user)) {
+                    throw ValidationException::withMessages(['username' => __('authentication::messages.operation.not_activated')]);
+                }
+            } else {
+                throw ValidationException::withMessages(['username' => __('authentication::messages.operation.invalid_username_or_password')]);
             }
         }
-
         return AuthenticationFacade::login($user);
     }
 

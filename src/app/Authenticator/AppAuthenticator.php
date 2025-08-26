@@ -11,7 +11,6 @@ class AppAuthenticator implements AuthenticatorInterface
         $token = $user->createToken('my-plain-token')->plainTextToken;
 
         return [
-            'message' => 'Logged in successfully',
             'user' => $user,
             'token' => $token
         ];

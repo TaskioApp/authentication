@@ -1,6 +1,8 @@
 <?php
 
-namespace Taskio\Authentication\Interfaces;
+namespace Taskio\Authentication\LoginValidator;
+
+use Taskio\Authentication\Interfaces\LoginValidatorInterface;
 
 class LoginByOtpValidator implements LoginValidatorInterface
 {

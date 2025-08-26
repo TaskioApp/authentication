@@ -12,7 +12,6 @@ class WebAuthenticator implements AuthenticatorInterface
         Auth::login($user);
 
         return [
-            'message' => 'Logged in successfully',
             'user' => $user
         ];
     }
@@ -20,12 +19,12 @@ class WebAuthenticator implements AuthenticatorInterface
     public function isBanned(object $user): bool
     {
         return $user->is_banned;
-    }
+    } 
 
     public function isActivated(object $user): bool
     {
         return $user->is_activated;
-    }
+    } 
 
     public function logout(object $user) {}
 

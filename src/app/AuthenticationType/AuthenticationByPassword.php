@@ -1,6 +1,6 @@
 <?php
 
-namespace Taskio\Authentication\Authenticator;
+namespace Taskio\Authentication\AuthenticationType;
 
 use Illuminate\Support\Facades\Hash;
 use Taskio\Authentication\Interfaces\AuthenticationTypeInterface;

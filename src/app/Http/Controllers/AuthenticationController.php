@@ -2,19 +2,26 @@
 
 namespace Taskio\Authentication\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Http\Resources\MeResource;
-use Taskio\Authentication\Services\AuthenticationService as ServicesAuthenticationService;
+use Taskio\Authentication\Services\AuthenticationService;
+use Taskio\Authentication\Http\Requests\LoginRequest;
 
 class AuthenticationController extends Controller
 {
-    public function __construct(public readonly ServicesAuthenticationService $authenticationService) {}
+    public function __construct(public readonly AuthenticationService $authenticationService) {}
 
-    public function login(Request $request)
+    public function login(LoginRequest $request): JsonResponse
     {
-        return $this->authenticationService->login($request->validated());
+        $data =  $this->authenticationService->login($request->validated());
+
+        return response()->json([
+            'message' => __('authentication::messages.operation.success'),
+            'data' => $data
+        ]);
     }
 
     public function logout(Request $request)

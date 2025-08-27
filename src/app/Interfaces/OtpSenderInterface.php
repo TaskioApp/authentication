@@ -4,5 +4,5 @@ namespace Taskio\Authentication\Interfaces;
 
 interface OtpSenderInterface
 {
-    public function send(object $user, string $text);
+    public function send(string $to, string $text);
 }

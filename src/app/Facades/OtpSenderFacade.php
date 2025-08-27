@@ -9,7 +9,7 @@ class OtpSenderFacade extends Facade
 
     public static function getFacadeAccessor()
     {
-        return 'facade.otpGenerator';
+        return 'facade.otpSender';
     }
 
     public static function shouldProxyTo(string $class)

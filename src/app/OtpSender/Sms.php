@@ -6,8 +6,8 @@ use Taskio\Authentication\Interfaces\OtpSenderInterface;
 
 class Sms implements OtpSenderInterface
 {
-    public function send(object $user, string $text)
+    public function send(string $to, string $text)
     {
-        return 'Send code to mobile';
+        return 'Send code to mobile ' . $to;
     }
 }

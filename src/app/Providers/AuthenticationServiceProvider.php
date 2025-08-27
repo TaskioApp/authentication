@@ -4,12 +4,14 @@ namespace Taskio\Authentication\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Taskio\Authentication\AuthenticationType\AuthenticationByOtp;
 use Taskio\Authentication\AuthenticationType\AuthenticationByPassword;
 use Taskio\Authentication\Authenticator\AppAuthenticator;
 use Taskio\Authentication\Authenticator\WebAuthenticator;
 use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Facades\AuthenticationTypeFacade;
 use Taskio\Authentication\Facades\OtpGeneratorFacade;
+use Taskio\Authentication\Facades\OtpSenderFacade;
 use Taskio\Authentication\Http\Controllers\AuthenticationController;
 use Taskio\Authentication\Interfaces\LoginValidatorInterface;
 use Taskio\Authentication\Interfaces\OtpSenderInterface;
@@ -25,6 +27,8 @@ class AuthenticationServiceProvider extends ServiceProvider
     {
         $this->defineBindings();
         $this->defineConfigs();
+
+        $this->app->register(AuthenticationEventServiceProvider::class);
     }
 
     public function boot()
@@ -57,13 +61,13 @@ class AuthenticationServiceProvider extends ServiceProvider
         $otpGenerator = SimpleOtpGenerator::class;
         OtpGeneratorFacade::shouldProxyTo($otpGenerator);
 
-        $authenticationType = AuthenticationByPassword::class;
+        $authenticationType = request()->has('otp') ? AuthenticationByOtp::class : AuthenticationByPassword::class;
         AuthenticationTypeFacade::shouldProxyTo($authenticationType);
 
         $loginValidator = LoginByPasswordValidator::class;
         $this->app->bind(LoginValidatorInterface::class, $loginValidator);
 
         $otpSender = Sms::class;
-        $this->app->bind(OtpSenderInterface::class, $otpSender);
+        OtpSenderFacade::shouldProxyTo($otpSender);
     }
 }

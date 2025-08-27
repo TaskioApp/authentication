@@ -3,17 +3,34 @@
 namespace Taskio\Authentication\Services;
 
 use Illuminate\Validation\ValidationException;
+use Taskio\Authentication\Events\UserRegistered;
 use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Facades\AuthenticationTypeFacade;
+use Taskio\Authentication\Helper\AuthenticationHelper;
 use Taskio\UserManagement\Services\UserManagementService;
 
 class AuthenticationService
 {
     public function __construct(public readonly UserManagementService $userManagementService) {}
 
-    public function register(object $params)
+    public function register(array $params)
     {
-        $this->userManagementService;
+        $username = $params['username'];
+
+        $field = AuthenticationHelper::detectUsername($username);
+
+        $user = $this->userManagementService->getByUsername($username);
+
+        if (!$user) {
+            $user = $this->userManagementService->store([$field => $username]);
+        }
+
+        return $user;
+    }
+
+    public function sendOtp($to)
+    {
+        UserRegistered::dispatch($to);
     }
 
     public function login(array $params)
@@ -42,9 +59,9 @@ class AuthenticationService
         return AuthenticationFacade::login($user);
     }
 
-    public function logout(array $params)
+    public function logout(object $user)
     {
-        return AuthenticationFacade::logout($params);
+        return AuthenticationFacade::logout($user);
     }
 
     public function me(object $user)

@@ -59,9 +59,9 @@ class AuthenticationService
         return AuthenticationFacade::login($user);
     }
 
-    public function logout(object $user)
+    public function logout($request)
     {
-        return AuthenticationFacade::logout($user);
+        return AuthenticationFacade::logout($request);
     }
 
     public function me(object $user)

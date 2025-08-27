@@ -26,7 +26,10 @@ class AppAuthenticator implements AuthenticatorInterface
         return $user->is_activated;
     }
 
-    public function logout(object $user) {}
+    public function logout(object $request)
+    {
+        return $request()->user()->currentAccessToken()->delete();
+    }
 
     public function me(object $user): object
     {

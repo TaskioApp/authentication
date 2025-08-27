@@ -36,7 +36,7 @@ class AuthenticationController extends Controller
 
     public function logout(Request $request)
     {
-        return $this->authenticationService->logout($request->user());
+        return $this->authenticationService->logout($request);
     }
 
     public function me(Request $request)

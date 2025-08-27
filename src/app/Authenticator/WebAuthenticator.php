@@ -19,14 +19,20 @@ class WebAuthenticator implements AuthenticatorInterface
     public function isBanned(object $user): bool
     {
         return $user->is_banned;
-    } 
+    }
 
     public function isActivated(object $user): bool
     {
         return $user->is_activated;
-    } 
+    }
 
-    public function logout(object $user) {}
+    public function logout(object $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    }
 
     public function me(object $user): object
     {

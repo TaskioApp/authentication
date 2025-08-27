@@ -1,6 +1,6 @@
 <?php
 
-namespace Taskio\Authentication\Helper;
+namespace Taskio\Authentication\Helpers;
 
 class AuthenticationHelper
 {

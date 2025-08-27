@@ -6,7 +6,7 @@ use Illuminate\Validation\ValidationException;
 use Taskio\Authentication\Events\UserRegistered;
 use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Facades\AuthenticationTypeFacade;
-use Taskio\Authentication\Helper\AuthenticationHelper;
+use Taskio\Authentication\Helpers\AuthenticationHelper;
 use Taskio\UserManagement\Services\UserManagementService;
 
 class AuthenticationService

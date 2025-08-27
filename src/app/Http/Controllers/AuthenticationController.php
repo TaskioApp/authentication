@@ -8,12 +8,13 @@ use Illuminate\Routing\Controller;
 use Taskio\Authentication\Http\Resources\MeResource;
 use Taskio\Authentication\Services\AuthenticationService;
 use Taskio\Authentication\Http\Requests\LoginRequest;
+use Taskio\Authentication\Http\Requests\RegisterRequest;
 
 class AuthenticationController extends Controller
 {
     public function __construct(public readonly AuthenticationService $authenticationService) {}
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $this->authenticationService->register($request->validated());
     }

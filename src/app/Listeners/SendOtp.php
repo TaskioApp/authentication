@@ -4,7 +4,7 @@ namespace Taskio\Authentication\Listeners;
 
 use Taskio\Authentication\Events\UserRegistered;
 use Taskio\Authentication\Facades\OtpSenderFacade;
-use Taskio\Authentication\Helper\AuthenticationHelper;
+use Taskio\Authentication\Helpers\AuthenticationHelper;
 use Taskio\Authentication\OtpSender\Email;
 
 class SendOtp

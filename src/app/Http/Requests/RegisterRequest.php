@@ -3,7 +3,8 @@
 namespace Taskio\Authentication\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Taskio\Authentication\Interfaces\LoginValidatorInterface;
+use Taskio\Authentication\Rules\UsernameRule;
+use Taskio\UserManagement\Services\UserManagementService;
 
 class RegisterRequest extends FormRequest
 {
@@ -22,6 +23,6 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return app(LoginValidatorInterface::class)->rules();
+        return ['username' => ['required', 'string', 'max:100', new UsernameRule(app(UserManagementService::class))]];
     }
 }

@@ -18,12 +18,12 @@ class AppAuthenticator implements AuthenticatorInterface
 
     public function isBanned(object $user): bool
     {
-        return $user->is_banned;
+        return (bool) $user->banned_at;
     }
 
     public function isActivated(object $user): bool
     {
-        return $user->is_activated;
+        return (bool) $user->activated_at;
     }
 
     public function logout(object $request)

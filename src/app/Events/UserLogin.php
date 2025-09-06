@@ -4,7 +4,7 @@ namespace Taskio\Authentication\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 
-class UserRegistered
+class UserLogin
 {
     use Dispatchable;
 

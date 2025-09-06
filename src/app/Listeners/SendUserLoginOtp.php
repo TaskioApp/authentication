@@ -2,23 +2,21 @@
 
 namespace Taskio\Authentication\Listeners;
 
-use Taskio\Authentication\Events\UserRegistered;
+use Taskio\Authentication\Events\UserLogin;
 use Taskio\Authentication\Facades\OtpSenderFacade;
 use Taskio\Authentication\Helpers\AuthenticationHelper;
 use Taskio\Authentication\OtpSender\Email;
 
-class SendOtp
+class SendUserLoginOtp
 {
-    public function handle(UserRegistered $event): void
+    public function handle(UserLogin $event): void
     {
         $to = $event->to;
         $type = AuthenticationHelper::detectUsername($to);
 
-        if ($type == 'mobile') {
-            echo OtpSenderFacade::send($to, 'Hello');
-        } else {
+        if ($type == 'email') {
             OtpSenderFacade::shouldProxyTo(Email::class);
-            echo OtpSenderFacade::send($to, 'Hello');
         }
+        echo OtpSenderFacade::send($to, 'Hello');
     }
 }

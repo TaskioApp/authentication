@@ -16,6 +16,12 @@ class AppAuthenticator implements AuthenticatorInterface
         ];
     }
 
+    public function verify(string $username, string $to): array
+    {
+        return [
+            'user' => ''
+        ];
+    }
     public function isBanned(object $user): bool
     {
         return (bool) $user->banned_at;

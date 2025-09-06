@@ -3,34 +3,20 @@
 namespace Taskio\Authentication\Services;
 
 use Illuminate\Validation\ValidationException;
-use Taskio\Authentication\Events\UserRegistered;
+use Taskio\Authentication\Events\UserLogin;
 use Taskio\Authentication\Facades\AuthenticationFacade;
-use Taskio\Authentication\Facades\AuthenticationTypeFacade;
-use Taskio\Authentication\Helpers\AuthenticationHelper;
 use Taskio\UserManagement\Services\UserManagementService;
 
 class AuthenticationService
 {
     public function __construct(public readonly UserManagementService $userManagementService) {}
 
-    public function register(array $params)
+    public function verify($params)
     {
         $username = $params['username'];
+        $otp = $params['otp'];
 
-        $field = AuthenticationHelper::detectUsername($username);
-
-        $user = $this->userManagementService->getByUsername($username);
-
-        if (!$user) {
-            $user = $this->userManagementService->store([$field => $username]);
-        }
-
-        return $user;
-    }
-
-    public function sendOtp($to)
-    {
-        UserRegistered::dispatch($to);
+        return AuthenticationFacade::verify($username, $otp);
     }
 
     public function login(array $params)
@@ -40,23 +26,15 @@ class AuthenticationService
         $user = $this->userManagementService->getByUsername($username);
 
         if (!$user) {
-            throw ValidationException::withMessages(['username' => __('authentication::messages.operation.invalid_username_or_password')]);
-
-            // exception
+            $user = $this->userManagementService->store(['username', $username]);
         } else {
-            if (AuthenticationTypeFacade::check($user, $params)) {
 
-                if (AuthenticationFacade::isBanned($user)) {
-                    throw ValidationException::withMessages(['username' => __('authentication::messages.operation.banned')]);
-                }
-                if (AuthenticationFacade::isActivated($user)) {
-                    throw ValidationException::withMessages(['username' => __('authentication::messages.operation.not_activated')]);
-                }
-            } else {
-                throw ValidationException::withMessages(['username' => __('authentication::messages.operation.invalid_username_or_password')]);
+            if (AuthenticationFacade::isBanned($user)) {
+                throw ValidationException::withMessages(['username' => __('authentication::messages.operation.banned')]);
             }
         }
-        return AuthenticationFacade::login($user);
+
+        UserLogin::dispatch($username);
     }
 
     public function logout($request)

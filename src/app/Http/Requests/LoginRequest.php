@@ -22,6 +22,8 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return app(LoginValidatorInterface::class)->rules();
+        return [
+            'username' => ['required', 'string', 'max:100']
+        ];
     }
 }

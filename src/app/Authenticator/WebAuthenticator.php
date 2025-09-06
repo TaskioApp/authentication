@@ -7,7 +7,7 @@ use Taskio\Authentication\Interfaces\AuthenticatorInterface;
 
 class WebAuthenticator implements AuthenticatorInterface
 {
-    public function login(object $user): array
+    public function verify(object $user): array
     {
         Auth::login($user);
 
@@ -15,14 +15,6 @@ class WebAuthenticator implements AuthenticatorInterface
             'user' => $user
         ];
     }
-
-    public function verify(string $username, string $to): array
-    {
-        return [
-            'user' => ''
-        ];
-    }
-
 
     public function isBanned(object $user): bool
     {

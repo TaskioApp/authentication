@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Taskio\Authentication\Http\Resources\MeResource;
 use Taskio\Authentication\Services\AuthenticationService;
 use Taskio\Authentication\Http\Requests\LoginRequest;
+use Taskio\Authentication\Http\Requests\VerifyRequest;
 
 class AuthenticationController extends Controller
 {
@@ -23,9 +24,9 @@ class AuthenticationController extends Controller
         ]);
     }
 
-    public function verify(string $to)
+    public function verify(VerifyRequest $request)
     {
-        $this->authenticationService->verify($to);
+        $this->authenticationService->verify($request->validated());
     }
 
     public function logout(Request $request)

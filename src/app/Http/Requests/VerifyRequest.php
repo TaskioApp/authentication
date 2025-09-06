@@ -3,10 +3,8 @@
 namespace Taskio\Authentication\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Taskio\Authentication\Rules\UsernameRule;
-use Taskio\UserManagement\Services\UserManagementService;
 
-class RegisterRequest extends FormRequest
+class VerifyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +21,9 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return ['username' => ['required', 'string', 'max:100', new UsernameRule(app(UserManagementService::class))]];
+        return [
+            'username' => ['required', 'string', 'max:100'],
+            'otp' => ['required', 'integer', 'digits:5']
+        ];
     }
 }

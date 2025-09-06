@@ -6,7 +6,7 @@ use Taskio\Authentication\Interfaces\AuthenticatorInterface;
 
 class AppAuthenticator implements AuthenticatorInterface
 {
-    public function login(object $user): array
+    public function verify(object $user): array
     {
         $token = $user->createToken('my-plain-token')->plainTextToken;
 
@@ -16,12 +16,6 @@ class AppAuthenticator implements AuthenticatorInterface
         ];
     }
 
-    public function verify(string $username, string $to): array
-    {
-        return [
-            'user' => ''
-        ];
-    }
     public function isBanned(object $user): bool
     {
         return (bool) $user->banned_at;

@@ -16,7 +16,14 @@ class AuthenticationService
         $username = $params['username'];
         $otp = $params['otp'];
 
-        return AuthenticationFacade::verify($username, $otp);
+        $user = $this->userManagementService->getByUsername($username);
+        $validOtp = $this->userManagementService->getValidOtp($user, $otp);
+
+        if ($validOtp) {
+            throw ValidationException::withMessages(['otp' => __('authentication::messages.wrong_otp')]);
+        }
+
+        return AuthenticationFacade::verify($user);
     }
 
     public function login(array $params)

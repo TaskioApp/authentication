@@ -19,7 +19,7 @@ class AuthenticationService
         $code = $params['code'];
 
         $user = $this->userManagementService->getByUsername($username);
-        $validOtp = $this->userManagementService->getValidOtp($user, $code);
+        $validOtp = $this->userManagementService->checkValidOtp($user, $code);
 
         if (!$validOtp) {
             throw ValidationException::withMessages(['code' => __('authentication::messages.wrong_otp')]);
@@ -43,8 +43,11 @@ class AuthenticationService
                 throw ValidationException::withMessages(['username' => __('authentication::messages.operation.banned')]);
             }
         }
-        
-        $code = OtpGeneratorFacade::generate();
+        $code =  $this->userManagementService->getValidOtp($user);
+
+        if (!$code) {
+            $code = OtpGeneratorFacade::generate();
+        }
 
         $this->userManagementService->storeOtp($user, $code);
 

@@ -3,7 +3,6 @@
 namespace Taskio\Authentication\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Taskio\Authentication\Interfaces\LoginValidatorInterface;
 
 class LoginRequest extends FormRequest
 {

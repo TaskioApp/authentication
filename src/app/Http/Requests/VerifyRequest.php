@@ -23,7 +23,7 @@ class VerifyRequest extends FormRequest
     {
         return [
             'username' => ['required', 'string', 'max:100'],
-            'otp' => ['required', 'integer', 'digits:5']
+            'code' => ['required', 'integer', 'digits:5']
         ];
     }
 }

@@ -12,11 +12,13 @@ class SendUserLoginOtp
     public function handle(UserLogin $event): void
     {
         $to = $event->to;
+        $code = $event->code;
         $type = AuthenticationHelper::detectUsername($to);
 
         if ($type == 'email') {
             OtpSenderFacade::shouldProxyTo(Email::class);
         }
-        echo OtpSenderFacade::send($to, 'Hello');
+
+        OtpSenderFacade::send($to, $code);
     }
 }

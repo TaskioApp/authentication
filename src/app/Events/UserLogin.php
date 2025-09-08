@@ -11,5 +11,5 @@ class UserLogin
     /**
      * Create a new event instance.
      */
-    public function __construct(public readonly string $to) {}
+    public function __construct(public readonly string $to, public readonly string $code) {}
 }

@@ -28,9 +28,10 @@ class WebAuthenticator implements AuthenticatorInterface
 
     public function logout(object $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
 
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
     }
 

@@ -26,7 +26,7 @@ class AuthenticationController extends Controller
 
     public function verify(VerifyRequest $request)
     {
-        $this->authenticationService->verify($request->validated());
+        return $this->authenticationService->verify($request->validated());
     }
 
     public function logout(Request $request)

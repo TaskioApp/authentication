@@ -3,6 +3,7 @@
 namespace Taskio\Authentication\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Taskio\Authentication\Rules\UsernameRule;
 
 class LoginRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string', 'max:100']
+            'username' => ['required', 'max:100', new UsernameRule]
         ];
     }
 }

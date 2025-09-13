@@ -26,9 +26,6 @@ class MeResource extends JsonResource
             'email_verified_at' => $this->email_verified_at,
             'last_logged_in_at' => $this->last_logged_in_at,
             'avatar' => $this->avatar,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at
         ];
     }
 }

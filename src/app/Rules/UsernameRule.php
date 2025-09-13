@@ -4,11 +4,9 @@ namespace Taskio\Authentication\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Taskio\UserManagement\Services\UserManagementService;
 
 class UsernameRule implements ValidationRule
 {
-    public function __construct(public UserManagementService $userManagementService) {}
     /**
      * Run the validation rule.
      *
@@ -22,13 +20,6 @@ class UsernameRule implements ValidationRule
 
         if (!$isEmail && !$isMobile) {
             $fail(__('authentication::messages.invalid_username'));
-            return;
-        }
-
-        $user = $this->userManagementService->getByUsername($value);
-
-        if ($user) {
-            $fail(__('authentication::messages.duplicate_username'));
             return;
         }
     }

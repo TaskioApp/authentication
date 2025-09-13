@@ -7,6 +7,7 @@ use Taskio\Authentication\Events\UserLogin;
 use Taskio\Authentication\Facades\AuthenticationFacade;
 use Taskio\Authentication\Facades\OtpGeneratorFacade;
 use Taskio\Authentication\Helpers\AuthenticationHelper;
+use Taskio\Authentication\Http\Resources\MeResource;
 use Taskio\UserManagement\Services\UserManagementService;
 
 class AuthenticationService
@@ -25,7 +26,7 @@ class AuthenticationService
             throw ValidationException::withMessages(['code' => __('authentication::messages.wrong_otp')]);
         }
 
-        return AuthenticationFacade::verify($user);
+        return new MeResource(AuthenticationFacade::verify($user)['user']);
     }
 
     public function login(array $params)
@@ -43,6 +44,7 @@ class AuthenticationService
                 throw ValidationException::withMessages(['username' => __('authentication::messages.operation.banned')]);
             }
         }
+
         $code =  $this->userManagementService->getValidOtp($user);
 
         if (!$code) {
@@ -53,7 +55,7 @@ class AuthenticationService
 
         UserLogin::dispatch($username, $code);
 
-        return ['user' => $user, 'code' => $code];
+        return ['code' => $code];
     }
 
     public function logout($request)
